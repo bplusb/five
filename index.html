@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Hello World!</title>
+    <style type="text/css">
+      body {
+        margin: 20px;
+      }
+      .button {
+        display: inline-block;
+        width: 20%;
+        height: 35px;
+        background-color: green;
+        border-radius: 7px;
+        text-align:center;
+        font-size: 25px;
+      }
+      .blank {
+        display: inline-block;
+        width: 6%;
+        height: 35px;
+      }
+    </style>
+    <script src="http://lib.sinaapp.com/js/jquery/1.9.1/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="fivechess.js"></script>
+    <script type="text/javascript" src="AI.js"></script>
+    <script type="text/javascript">
+        // function AIPosit() {
+        //   var a = AIPlay (chessData, blackDifficult);
+        //   posit(a[0], a[1]);
+        // }
+        // var jq = jQuery.noConflict();
+
+        $('document').ready(function() {
+          drawRect();
+          var $hand = $('#hand');
+          $($hand).click (function () {
+            var bd = false;
+            return function () {
+              bd = !bd;
+              blackDifficult = bd;
+              if (bd) {
+                $hand.css("background-color", "red");
+                $hand.html("noHand");
+              }
+              else {
+                $hand.css("background-color", "green");
+                $hand.html("Hand");
+              }
+            }
+          }() );
+        });
+    </script>
+  </head>
+  <body>
+    <div>
+      <canvas id="canvas" width="600" height="600" onmousedown="play(event)">
+        Your browser is not supported HTML5 maybe.
+      </canvas>
+    </div>
+    <div class="button" onclick="init()">Restart</div><div class="blank"></div>
+    <div class="button" onclick="unplay()">Ungo</div><div class="blank"></div>
+    <div class="button" onclick="AIPosit()">AIGo</div><div class="blank"></div>
+    <div class="button" id="hand">Hand</div>
+  </body>
+</html>
