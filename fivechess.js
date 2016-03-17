@@ -92,18 +92,53 @@ function isOver(x, y) {
   return NOPUT;
 }
 
-function drawChess(chess, x, y) {
-  if (!isValid(x, y)) {
-    return;
-  }
-  chessData[x][y] = chess;
-  if (chess == WHITE) {
+function drawChess(x, y) {
+  if (nowColor == WHITE) {
     context.drawImage(img_w, x*40+5, y*40+5);
   }
   else {
     context.drawImage(img_b, x*40+5, y*40+5);
   }
+}
+
+function undrawChess(x, y) {
+  context.fillStyle="white";
+  context.fillRect(x*40, y*40, 40, 40);
+  context.beginPath();
+  context.moveTo(Math.max(20,x*40), y*40+20);
+  context.lineTo(Math.min(580,x*40+40), y*40+20);
+  context.closePath();
+  context.stroke();
+  context.beginPath();
+  context.moveTo(x*40+20, Math.max(20,y*40) );
+  context.lineTo(x*40+20, Math.min(580,y*40+40) );
+  context.closePath();
+  context.stroke();
+}
+
+function posit(x, y) {
+  histMove.push(x);
+  histMove.push(y);
+  chessData[x][y] = nowColor;
+  nowColor = -nowColor;
   winner = isOver(x, y);
+}
+
+function unposit() {
+  var y = histMove.pop();
+  var x = histMove.pop();
+  chessData[x][y] = NOPUT;
+  nowColor = -nowColor;
+  winner = NOPUT;
+}
+
+function play(x, y) {
+  if (winner) {
+    alert("Game is over");
+    return;
+  }
+  drawChess(x, y);
+  posit(x, y);
   if (winner) {
     if (winner == WHITE) {
       alert("WHITE wins");
@@ -114,18 +149,18 @@ function drawChess(chess, x, y) {
   }
 }
 
-function posit(x, y) {
-    histMove.push(x);
-    histMove.push(y);
-    drawChess(nowColor, x, y);
-    nowColor = -nowColor;
-}
-
-function play(e) {
-  if (winner) {
-    alert("Game is over");
+function unplay() {
+  if (histMove.length == 0) {
+    alert("No hist");
     return;
   }
+  var x = histMove[histMove.length-2];
+  var y = histMove[histMove.length-1];
+  unposit(x, y);
+  undrawChess(x, y);
+}
+
+function playWithMouse (e) {
   var x = parseInt(e.offsetX/40);
   var y = parseInt(e.offsetY/40);
   if (!isValid(x, y)) {
@@ -135,34 +170,7 @@ function play(e) {
     alert("You can't play here");
     return ;
   }
-  posit(x, y);
-}
-
-function unplay() {
-  if (histMove.length == 0) {
-    alert("No hist");
-    return;
-  }
-  var y = histMove.pop();
-  var x = histMove.pop();
-  console.log(x + "," + y);
-
-  context.fillStyle="white";
-  context.fillRect(x*40, y*40, 40, 40);
-  context.beginPath();
-  context.moveTo(x*40, y*40+20);
-  context.lineTo(x*40+40, y*40+20);
-  context.closePath();
-  context.stroke();
-  context.beginPath();
-  context.moveTo(x*40+20, y*40);
-  context.lineTo(x*40+20, y*40+40);
-  context.closePath();
-  context.stroke();
-
-  chessData[x][y] = NOPUT;
-  nowColor = -nowColor;
-  winner = NOPUT;
+  play(x, y);
 }
 
 function init() {

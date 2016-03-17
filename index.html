@@ -26,12 +26,6 @@
     <script type="text/javascript" src="fivechess.js"></script>
     <script type="text/javascript" src="AI.js"></script>
     <script type="text/javascript">
-        // function AIPosit() {
-        //   var a = AIPlay (chessData, blackDifficult);
-        //   posit(a[0], a[1]);
-        // }
-        // var jq = jQuery.noConflict();
-
         $('document').ready(function() {
           drawRect();
           var $hand = $('#hand');
@@ -42,11 +36,11 @@
               blackDifficult = bd;
               if (bd) {
                 $hand.css("background-color", "red");
-                $hand.html("noHand");
+                $hand.html("无禁手");
               }
               else {
                 $hand.css("background-color", "green");
-                $hand.html("Hand");
+                $hand.html("禁手");
               }
             }
           }() );
@@ -55,13 +49,13 @@
   </head>
   <body>
     <div>
-      <canvas id="canvas" width="600" height="600" onmousedown="play(event)">
+      <canvas id="canvas" width="600" height="600" onmousedown="playWithMouse(event)">
         Your browser is not supported HTML5 maybe.
       </canvas>
     </div>
-    <div class="button" onclick="init()">Restart</div><div class="blank"></div>
-    <div class="button" onclick="unplay()">Ungo</div><div class="blank"></div>
-    <div class="button" onclick="AIPosit()">AIGo</div><div class="blank"></div>
-    <div class="button" id="hand">Hand</div>
+    <div class="button" onclick="init()">重来</div><div class="blank"></div>
+    <div class="button" onclick="unplay()">悔棋</div><div class="blank"></div>
+    <div class="button" onclick="AIPlay()">AI</div><div class="blank"></div>
+    <div class="button" id="hand">无禁手</div>
   </body>
 </html>
