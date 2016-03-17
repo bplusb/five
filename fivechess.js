@@ -134,8 +134,8 @@ function countLine (x, y, dx, dy) {
       return ret;
     }
   }
-  if (a[3] >= 5) {ret[2] ++;}
-  if( b[3] >= 4) {ret[2] ++;}
+  if (a[2] >= 4 && b[1] > b[0]) {ret[2] ++;}
+  if( b[2] >= 3) {ret[2] ++;}
   return ret;
 }
 
